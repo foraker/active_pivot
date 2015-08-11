@@ -1,23 +1,23 @@
 module ActivePivot
   module Api
-    class Story < OpenStruct
+    class Activity < OpenStruct
       STATES = %w{ accepted delivered finished started rejected unstarted unscheduled }
 
       def self.default_filter
         Filter.new({
-          state: STATES,
-          includedone: true
+          # state: STATES,
+          # includedone: true
         })
       end
 
       def self.for_project(project_id, story_id, params = {})
-        collection(project_id, story_id, default_filter.merge(params).to_params).all
+        collection(project_id, story_id).all
           .map { |story| self.new(story) rescue nil }
           .compact
       end
 
       def self.collection(project_id, story_id, params = {})
-        PaginatedCollection.new("/services/v5/projects/#{project_id}/stories.json", params.as_json)
+        PaginatedCollection.new("/services/v5/projects/#{project_id}/stories/#{story_id}/activity.json")
       end
     end
   end

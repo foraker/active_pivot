@@ -8,13 +8,14 @@ module ActivePivot
       import_projects
       import_epics
       import_stories
+      import_activities
     end
 
     private
 
     def import_projects
       Api::Project.all.each do |remote_project|
-        Pivotal::Project.where(pivotal_id: remote_project.id)
+        ActivePivot::Project.where(pivotal_id: remote_project.id)
           .first_or_initialize
           .update_attributes!({
             name:        remote_project.name,
@@ -24,7 +25,7 @@ module ActivePivot
     end
 
     def import_epics
-      Pivotal::Project.all.each do |project|
+      ActivePivot::Project.all.each do |project|
         project.remote_epics(params.except(:updated_after)).each do |remote_epic|
           import_epic(remote_epic)
         end
@@ -39,19 +40,27 @@ module ActivePivot
       end
     end
 
+    def import_activities
+      Story.all.each do |story|
+        story.remote_activities(params).each do |remote_activity|
+          import_activity(remote_activity)
+        end
+      end
+    end
+
     def import_epic(remote_epic)
-      Pivotal::Epic.where(pivotal_id: remote_epic.id.to_s)
+      ActivePivot::Epic.where(pivotal_id: remote_epic.id.to_s)
         .first_or_initialize
         .update_attributes({
-          pivotal_project_id: remote_epic.project_id,
-          name: remote_epic.name,
-          url: remote_epic.url,
-          label_id: remote_epic.label.try(:[], "id")
+          project_id: remote_epic.project_id,
+          name:       remote_epic.name,
+          url:        remote_epic.url,
+          label_id:   remote_epic.label.try(:[], "id")
         })
     end
 
     def import_story(remote_story)
-      Pivotal::Story.where(pivotal_id: remote_story.id.to_s)
+      ActivePivot::Story.where(pivotal_id: remote_story.id.to_s)
         .first_or_initialize
         .update_attributes!({
           project_id:    remote_story.project_id,
@@ -66,6 +75,10 @@ module ActivePivot
           accepted_at:   remote_story.accepted_at,
           url:           remote_story.url
         })
+    end
+
+    def import_activity(remote_activity)
+      ActivePivot::Activity.new(remote_activity).store
     end
   end
 end

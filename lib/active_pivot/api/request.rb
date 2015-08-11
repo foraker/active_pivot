@@ -1,3 +1,5 @@
+require 'httparty'
+
 module ActivePivot
   module Api
     class Request

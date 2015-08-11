@@ -20,6 +20,24 @@ Or install it yourself as:
 
     $ gem install active_pivot
 
+Next, generate the migrations by running:
+
+    $ rails g active_pivot:migrations
+
+Open up the "create_pivotal_stories" and change the line:
+
+    t.text[] :tags
+
+to:
+
+    t.text :tags, array: true, default: []
+
+Now, you can review the migrations and then run
+
+    $ rake db:migrate
+
+and the requisite tables will be created.
+
 ## Usage
 
 TODO: Write usage instructions here

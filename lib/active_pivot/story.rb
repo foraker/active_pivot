@@ -14,6 +14,10 @@ module ActivePivot
 
     serialize :labels, Array
 
+    def remote_activities(params = {})
+      Api::Activity.for_project(project_id, pivotal_id, params)
+    end
+
     def self.for_project(project_id)
       where(project_id: project_id)
     end
