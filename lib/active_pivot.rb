@@ -18,3 +18,7 @@ require "active_pivot/importer"
 require "active_pivot/project"
 require "active_pivot/story"
 require "active_pivot/activity"
+
+require "rake"
+require "active_pivot/railtie" if defined?(Rails)
+load "tasks/import.rake"
