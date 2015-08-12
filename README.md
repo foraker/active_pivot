@@ -1,8 +1,6 @@
 # ActivePivot
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/active_pivot`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+An easy way to store your Pivotal Tracker projects, stories, and epics
 
 ## Installation
 
@@ -40,7 +38,40 @@ and the requisite tables will be created.
 
 ## Usage
 
-TODO: Write usage instructions here
+Add your Pivotal Tracker API token to your secrets.yml:
+
+`tracker_api_token: <%= ENV["PIVOTAL_TRACKER_API_TOKEN"] %>`
+
+Create a new rake task called `import.rake`
+
+```
+namespace :import do
+
+  task pivotal_update: :environment do
+    interval = 15.minutes.ago
+    ActivePivot::Importer.run(interval)
+  end
+
+  task pivotal_initial: :environment do
+    interval = 3.years.ago
+    ActivePivot::Importer.run(interval)
+  end
+end
+```
+
+Initialize your database by running `rake import:pivotal_initial`
+
+You can then easily update it with `rake import:pivotal_update`
+
+This gem will create the following models:
+- [ActivePivot::Activity](lib/active_pivot/activity.rb)
+- [ActivePivot::Epic](lib/active_pivot/epic.rb)
+- [ActivePivot::EpicStory](lib/active_pivot/epic_story.rb)
+- [ActivePivot::Project](lib/active_pivot/project.rb)
+- [ActivePivot::Story](lib/active_pivot/story.rb)
+
+You can subclass these models in your project to customize behavior.
+
 
 ## Development
 
@@ -50,7 +81,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/active_pivot.
+Bug reports and pull requests are welcome on GitHub at https://github.com/foraker/active_pivot.
 
 
 ## License
