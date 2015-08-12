@@ -42,26 +42,15 @@ Add your Pivotal Tracker API token to your secrets.yml:
 
 `tracker_api_token: <%= ENV["PIVOTAL_TRACKER_API_TOKEN"] %>`
 
-Create a new rake task called `import.rake`
+Now you can import your projects and stories using the following:
 
-```
-namespace :import do
+`rake active_pivot:import:pivotal_initial` for all activity up to 3 years ago
 
-  task pivotal_update: :environment do
-    interval = 15.minutes.ago
-    ActivePivot::Importer.run(interval)
-  end
+`rake active_pivot:import:pivotal_date[]` for all activity since a particular date
+example: `rake active_pivot:import:date['August 12, 2015']`
 
-  task pivotal_initial: :environment do
-    interval = 3.years.ago
-    ActivePivot::Importer.run(interval)
-  end
-end
-```
-
-Initialize your database by running `rake import:pivotal_initial`
-
-You can then easily update it with `rake import:pivotal_update`
+`rake active_pivot:import:pivotal_update[]` for all activity since X minutes ago
+example: `rake active_pivot:import:update[15]`
 
 This gem will create the following models:
 - [ActivePivot::Activity](lib/active_pivot/activity.rb)
@@ -87,4 +76,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/forake
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
