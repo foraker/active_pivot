@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Import all of your Pivotal projects and stories easily}
   #spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "https://www.github.com/active_pivot"
+  spec.homepage      = "https://github.com/foraker/active_pivot"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
