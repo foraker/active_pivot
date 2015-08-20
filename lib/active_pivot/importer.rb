@@ -18,8 +18,10 @@ module ActivePivot
         ActivePivot::Project.where(pivotal_id: remote_project.id)
           .first_or_initialize
           .update_attributes!({
-            name:        remote_project.name,
-            point_scale: remote_project.point_scale
+            name:               remote_project.name,
+            point_scale:        remote_project.point_scale,
+            current_velocity:   remote_project.current_velocity,
+            current_volatility: remote_project.current_volatility
           })
       end
     end
