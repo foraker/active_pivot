@@ -28,7 +28,7 @@ module ActivePivot
 
         (2..total_pages).map do |page|
           offset = limit * (page - 1)
-          Request.get(endpoint, params.merge(offset: offset))
+          send_request(params.merge(offset: offset))
         end
       end
 
@@ -37,8 +37,21 @@ module ActivePivot
       end
 
       def first_page
-        @first_page ||= Request.get(endpoint, params)
+        @first_page ||= send_request(params)
+      end
+
+      def send_request(params = {})
+        Request.get(endpoint, params).tap do |response|
+          raise_request_error unless response.success?
+        end
+      end
+
+      def raise_request_error
+        raise InvalidRequestError,
+          "Pivotal request failed. Endpoint #{endpoint} invalid with params: #{params}"
       end
     end
+
+    class InvalidRequestError < StandardError; end
   end
 end
