@@ -5,9 +5,13 @@ module ActivePivot
     end
 
     def run
+      puts "Importing Projects"
       import_projects
+      puts "Importing Epics"
       import_epics
+      puts "Importing Stories"
       import_stories
+      puts "Importing Activity - may take up to 10 minutes"
       import_activities
     end
 
