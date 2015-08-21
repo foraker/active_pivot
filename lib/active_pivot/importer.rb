@@ -5,9 +5,13 @@ module ActivePivot
     end
 
     def run
+      puts "Importing Projects"
       import_projects
+      puts "Importing Epics"
       import_epics
+      puts "Importing Stories"
       import_stories
+      puts "Importing Activity - may take up to 10 minutes"
       import_activities
     end
 
@@ -18,8 +22,10 @@ module ActivePivot
         ActivePivot::Project.where(pivotal_id: remote_project.id)
           .first_or_initialize
           .update_attributes!({
-            name:        remote_project.name,
-            point_scale: remote_project.point_scale
+            name:               remote_project.name,
+            point_scale:        remote_project.point_scale,
+            current_velocity:   remote_project.current_velocity,
+            current_volatility: remote_project.current_volatility
           })
       end
     end
