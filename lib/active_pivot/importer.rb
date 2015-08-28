@@ -84,7 +84,7 @@ module ActivePivot
     end
 
     def import_activity(remote_activity)
-      ActivePivot::Activity.new(remote_activity).store
+      ActivePivot::Activity.new(remote_activity).store unless remote_activity['kind'] == "error"
     end
   end
 end
