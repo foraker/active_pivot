@@ -42,13 +42,12 @@ module ActivePivot
 
       def send_request(params = {})
         Request.get(endpoint, params).tap do |response|
-          raise_request_error unless response.success?
+          print_request_error unless response.success?
         end
       end
 
-      def raise_request_error
-        raise InvalidRequestError,
-          "Pivotal request failed. Endpoint #{endpoint} invalid with params: #{params}"
+      def print_request_error
+        puts "Pivotal request failed. Endpoint #{endpoint} invalid with params: #{params}"
       end
     end
 
