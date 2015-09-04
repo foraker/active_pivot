@@ -42,6 +42,10 @@ Add your Pivotal Tracker API token to your secrets.yml:
 
 `tracker_api_token: <%= ENV["PIVOTAL_TRACKER_API_TOKEN"] %>`
 
+If you would like to use the import rake tasks, add this line to your project's Rakefile:
+
+`require 'active_pivot/import_tasks'`
+
 Now you can import your projects and stories using the following:
 
 `rake active_pivot:import:pivotal_initial` for all activity up to 3 years ago
