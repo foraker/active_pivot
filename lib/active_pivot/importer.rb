@@ -1,7 +1,7 @@
 module ActivePivot
-  class Importer < Struct.new(:params)
-    def self.run(updated_after = 5.minutes.ago)
-      self.new({updated_after: updated_after}).run
+  class Importer < Struct.new(:params, :activity_flag)
+    def self.run(updated_after = 5.minutes.ago, activity_flag)
+      self.new({updated_after: updated_after}, activity_flag).run
     end
 
     def run
@@ -11,8 +11,10 @@ module ActivePivot
       import_epics
       puts "Importing Stories"
       import_stories
-      puts "Importing Activity - may take up to 10 minutes"
-      import_activities
+      unless activity_flag == 'false'
+        puts "Importing Activity - may take up to 10 minutes"
+        import_activities
+      end
     end
 
     private
