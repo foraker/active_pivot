@@ -47,7 +47,7 @@ module ActivePivot
     end
 
     def import_activities
-      Story.all.each do |story|
+      Story.where(started_at: nil).each do |story|
         story.remote_activities(params).each do |remote_activity|
           import_activity(remote_activity)
         end
