@@ -5,10 +5,14 @@ module ActivePivot
     def import_tasks
       namespace :active_pivot do
         namespace :import do
-          task :pivotal_update, [:interval] => :environment do |t, args|
+          task :pivotal_update, [:interval, :activity] => :environment do |t, args|
             updated_after = args[:interval].to_i.minutes.ago
+            activity_flag = args[:activity]
             puts "Updating since #{updated_after}"
-            ActivePivot::Importer.run(updated_after)
+            if args[:activity] == 'false'
+              puts "Not including Pivotal Activity for stories (no started_at)"
+            end
+            ActivePivot::Importer.run(updated_after, activity_flag)
           end
 
           task pivotal_initial: :environment do

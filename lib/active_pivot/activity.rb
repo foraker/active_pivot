@@ -49,7 +49,13 @@ module ActivePivot
     end
 
     def new_values
-      remote_activity.changes[0]['new_values']
+      change['new_values'] if change
+    end
+
+    def change
+      @change ||= remote_activity.changes.detect do |change|
+        change['new_values'] && change['new_values']['current_state']
+      end
     end
   end
 end

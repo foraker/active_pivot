@@ -56,6 +56,10 @@ example: `rake active_pivot:import:date['August 12, 2015']`
 `rake active_pivot:import:pivotal_update[]` for all activity since X minutes ago
 example: `rake active_pivot:import:update[15]`
 
+Grabbing the start date of a Story requires sifting through its Activity, which can take a long time.
+If you do not wish to record a Story's start date, use:
+`rake active_pivot:import:update[15,false]`
+
 This gem will create the following models:
 - [ActivePivot::Activity](lib/active_pivot/activity.rb)
 - [ActivePivot::Epic](lib/active_pivot/epic.rb)
