@@ -71,17 +71,18 @@ module ActivePivot
       ActivePivot::Story.where(pivotal_id: remote_story.id.to_s)
         .first_or_initialize
         .update_attributes!({
-          project_id:    remote_story.project_id,
-          pivotal_id:    remote_story.id,
-          name:          remote_story.name,
-          description:   remote_story.description,
-          kind:          remote_story.kind,
-          story_type:    remote_story.story_type,
-          labels:        remote_story.labels,
-          current_state: remote_story.current_state,
-          estimate:      remote_story.estimate,
-          accepted_at:   remote_story.accepted_at,
-          url:           remote_story.url
+          project_id:        remote_story.project_id,
+          pivotal_id:        remote_story.id,
+          name:              remote_story.name,
+          description:       remote_story.description,
+          kind:              remote_story.kind,
+          story_type:        remote_story.story_type,
+          labels:            remote_story.labels,
+          current_state:     remote_story.current_state,
+          estimate:          remote_story.estimate,
+          accepted_at:       remote_story.accepted_at,
+          url:               remote_story.url,
+          remote_created_at: remote_story.created_at
         })
     end
 
