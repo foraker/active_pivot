@@ -22,7 +22,7 @@ Next, generate the migrations by running:
 
     $ rails g active_pivot:migrations
 
-Open up the "create_pivotal_stories" and change the line:
+Open up the "create_pivotal_stories" migration and change the line:
 
     t.text[] :tags
 
@@ -50,15 +50,17 @@ Now you can import your projects and stories using the following:
 
 `rake active_pivot:import:pivotal_initial` for all activity up to 3 years ago
 
-`rake active_pivot:import:pivotal_date[]` for all activity since a particular date
-example: `rake active_pivot:import:date['August 12, 2015']`
+`rake active_pivot:import:pivotal_date[]` for all activity since a particular date.
+Example: `rake active_pivot:import:pivotal_date['August 12, 2015']`
 
-`rake active_pivot:import:pivotal_update[]` for all activity since X minutes ago
-example: `rake active_pivot:import:update[15]`
+`rake active_pivot:import:pivotal_update[]` for all activity since X minutes ago.
+Example: `rake active_pivot:import:pivotal_update[15]`
 
 Grabbing the start date of a Story requires sifting through its Activity, which can take a long time.
 If you do not wish to record a Story's start date, use:
-`rake active_pivot:import:update[15,false]`
+`rake active_pivot:import:pivotal_update[15, false]`
+
+Note that if you're using zsh, you'll have to escape the brackets with a `\`.
 
 This gem will create the following models:
 - [ActivePivot::Activity](lib/active_pivot/activity.rb)
